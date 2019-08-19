@@ -49,17 +49,17 @@
 <div id="kamatnjak">
     <div>
         <label for="kamata">Kamata</label>
-        <input v-model="kamata" id="kamata" type="number" step="any">
+        <input v-model.number="kamata" id="kamata" type="number" step="any">
     </div>
 
     <div>
         <label for="rata">Broj rata (mjeseci)</label>
-        <input v-model="rata" id="rata" type="number">
+        <input v-model.number="rata" id="rata" type="number">
     </div>
 
     <div>
         <label for="glavnica">Iznos glavnice</label>
-        <input v-model="glavnica" id="glavnica" type="number">
+        <input v-model.number="glavnica" id="glavnica" type="number">
     </div>
 
     <div class="wrapper">
@@ -128,7 +128,7 @@
                     <th>UKUPNO:</th>
                     <th>{{ glavnica }}</th>
                     <th>{{ ukupnoKamataRate }}</th>
-                    <th>{{ glavnica + ukupnoKamataRate}}</th>
+                    <th>{{ ukupnoRata }}</th>
                     <th></th>
                 </tr>
                 </tfoot>
@@ -178,7 +178,9 @@
                     kamata += this.kamataZaMjesec(i)
                 }
 
-                return kamata
+                var result =  kamata
+
+                return Math.round(result * 100) / 100;
             },
             ukupnoKamataAnuitet: function () {
                 var kamata = 0
