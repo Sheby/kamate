@@ -76,7 +76,7 @@
         <div>
             <h1>Anuiteti</h1>
 
-            <h2>Mjesečni obrok tj. anuitet: {{ prviAnuitet }}</h2>
+            <h2>Mjesečni obrok tj. anuitet: {{ formatMoney(prviAnuitet) }}</h2>
             <table>
                 <thead>
                 <tr>
@@ -92,12 +92,12 @@
                 <tbody>
                 <tr v-for="i in rata">
                     <td>{{ i }}</td>
-                    <td>{{ glavnicaZaMjesecAnuitet(i) }}</td>
-                    <td>{{ kamataZaMjesecAnuitet(i) }}</td>
-                    <td>{{ prviAnuitet }}</td>
-                    <td>{{ subvencijaAnuitet(i) }}</td>
-                    <td>{{ subvencijaOstatakAnuitet(i) }}</td>
-                    <td>{{ nedospijelaGlavnicaAnuitet(i) }}</td>
+                    <td>{{ formatMoney(glavnicaZaMjesecAnuitet(i)) }}</td>
+                    <td>{{ formatMoney(kamataZaMjesecAnuitet(i)) }}</td>
+                    <td>{{ formatMoney(prviAnuitet) }}</td>
+                    <td>{{ formatMoney(subvencijaAnuitet(i)) }}</td>
+                    <td>{{ formatMoney(subvencijaOstatakAnuitet(i)) }}</td>
+                    <td>{{ formatMoney(nedospijelaGlavnicaAnuitet(i)) }}</td>
                 </tr>
                 </tbody>
 
@@ -114,11 +114,11 @@
                 </tr>
                 <tr>
                     <th>UKUPNO:</th>
-                    <th>{{ glavnica }}</th>
-                    <th>{{ ukupnoKamataAnuitet }}</th>
-                    <th>{{ ukupnoAnuitet }}</th>
-                    <th>{{ ukupnaSubvencijaAnuitet }}</th>
-                    <th>{{ ukupniOstatakAnuitet }}</th>
+                    <th>{{ formatMoney(glavnica) }}</th>
+                    <th>{{ formatMoney(ukupnoKamataAnuitet) }}</th>
+                    <th>{{ formatMoney(ukupnoAnuitet) }}</th>
+                    <th>{{ formatMoney(ukupnaSubvencijaAnuitet) }}</th>
+                    <th>{{ formatMoney(ukupniOstatakAnuitet) }}</th>
                     <th></th>
                 </tr>
                 </tfoot>
@@ -128,7 +128,7 @@
         <div>
             <h1>Rate</h1>
 
-            <h2>Prvi mjesečni obrok tj. rata: {{ prvaRata }}</h2>
+            <h2>Prvi mjesečni obrok tj. rata: {{ formatMoney(prvaRata) }}</h2>
 
             <table>
                 <thead>
@@ -145,12 +145,12 @@
                 <tbody>
                 <tr v-for="i in rata">
                     <td>{{ i }}</td>
-                    <td>{{ glavnicaZaMjesec() }}</td>
-                    <td>{{ kamataZaMjesec(i) }}</td>
-                    <td>{{ rataZaMjesec(i) }}</td>
-                    <td>{{ subvencijaRata(i) }}</td>
-                    <td>{{ subvencijaOstatakRata(i) }}</td>
-                    <td>{{ nedospijelaGlavnica(i) }}</td>
+                    <td>{{ formatMoney(glavnicaZaMjesec()) }}</td>
+                    <td>{{ formatMoney(kamataZaMjesec(i)) }}</td>
+                    <td>{{ formatMoney(rataZaMjesec(i)) }}</td>
+                    <td>{{ formatMoney(subvencijaRata(i)) }}</td>
+                    <td>{{ formatMoney(subvencijaOstatakRata(i)) }}</td>
+                    <td>{{ formatMoney(nedospijelaGlavnica(i)) }}</td>
                 </tr>
                 </tbody>
                 <tfoot>
@@ -165,11 +165,11 @@
                 </tr>
                 <tr>
                     <th>UKUPNO:</th>
-                    <th>{{ glavnica }}</th>
-                    <th>{{ ukupnoKamataRate }}</th>
-                    <th>{{ ukupnoRata }}</th>
-                    <th>{{ ukupnaSubvencijaRata }}</th>
-                    <th>{{ ukupniOstatakRata }}</th>
+                    <th>{{ formatMoney(glavnica) }}</th>
+                    <th>{{ formatMoney(ukupnoKamataRate) }}</th>
+                    <th>{{ formatMoney(ukupnoRata) }}</th>
+                    <th>{{ formatMoney(ukupnaSubvencijaRata) }}</th>
+                    <th>{{ formatMoney(ukupniOstatakRata) }}</th>
                     <th></th>
                 </tr>
                 </tfoot>
@@ -199,9 +199,7 @@
 
                 var b = Math.pow(r2, n);
 
-                var result = C0 * ((b * (r2 - 1)) / (b - 1));
-
-                return Math.round(result * 100) / 100;
+                return C0 * ((b * (r2 - 1)) / (b - 1));
             },
             prvaRata: function () {
                 var C0 = this.glavnica;
@@ -210,9 +208,7 @@
                 var g = C0 / n;
                 var k = (C0 * r) / 12;
 
-                var result = g + k;
-
-                return Math.round(result * 100) / 100;
+                return g + k;
             },
             ukupnoKamataRate: function () {
                 var kamata = 0
@@ -221,7 +217,7 @@
                     kamata += this.kamataZaMjesec(i)
                 }
 
-                return Math.round(kamata * 100) / 100;
+                return kamata;
             },
             ukupnoKamataAnuitet: function () {
                 var kamata = 0
@@ -230,17 +226,13 @@
                     kamata += this.kamataZaMjesecAnuitet(i)
                 }
 
-                return Math.round(kamata * 100) / 100;
+                return kamata;
             },
             ukupnoAnuitet: function () {
-                var result  = this.glavnica + this.ukupnoKamataAnuitet;
-
-                return Math.round(result * 100) / 100;
+                return this.glavnica + this.ukupnoKamataAnuitet;
             },
             ukupnoRata: function () {
-                var result  = this.glavnica + this.ukupnoKamataRate;
-
-                return Math.round(result * 100) / 100;
+                return this.glavnica + this.ukupnoKamataRate;
             },
             ukupnaSubvencijaAnuitet: function () {
                 var subvencija = 0
@@ -249,7 +241,7 @@
                     subvencija += this.subvencijaAnuitet(i)
                 }
 
-                return Math.round(subvencija * 100) / 100;
+                return subvencija;
             },
             ukupniOstatakAnuitet: function () {
                 var subvencija = 0
@@ -258,7 +250,7 @@
                     subvencija += this.subvencijaOstatakAnuitet(i)
                 }
 
-                return Math.round(subvencija * 100) / 100;
+                return subvencija;
             },
             ukupnaSubvencijaRata: function () {
                 var subvencija = 0
@@ -267,7 +259,7 @@
                     subvencija += this.subvencijaRata(i)
                 }
 
-                return Math.round(subvencija * 100) / 100;
+                return subvencija;
             },
             ukupniOstatakRata: function () {
                 var subvencija = 0
@@ -276,7 +268,7 @@
                     subvencija += this.subvencijaOstatakRata(i)
                 }
 
-                return Math.round(subvencija * 100) / 100;
+                return subvencija;
             }
         },
         methods: {
@@ -285,7 +277,7 @@
                 var n = this.rata;
                 var g = C0 / n;
 
-                return Math.round(g * 100) / 100;
+                return g;
             },
             kamataZaMjesec: function (mjesec) {
                 var n = this.rata;
@@ -295,10 +287,10 @@
                 var r = this.kamata / 100;
                 var k = (C1 * r) / 12;
 
-                return Math.round(k * 100) / 100;
+                return k;
             },
             rataZaMjesec: function (mjesec) {
-                return Math.round((this.glavnicaZaMjesec() + this.kamataZaMjesec(mjesec)) * 100) / 100;
+                return (this.glavnicaZaMjesec() + this.kamataZaMjesec(mjesec));
             },
             nedospijelaGlavnica: function (mjesec) {
                 var n = this.rata;
@@ -306,7 +298,7 @@
                 var g = C0 / n;
                 var C1 = C0 - (g * (mjesec));
 
-                return Math.round(C1 * 100) / 100;
+                return C1;
             },
             nedospijelaGlavnicaAnuitet: function (mjesec) {
                 var r = (this.kamata / 100) + 1
@@ -320,55 +312,56 @@
 
                 var p = n - mjesec;
 
-                var result = A * ((Math.pow(r2, p) - 1) / (Math.pow(r2, p) * (r2 - 1)));
-
-                return Math.round(result * 100) / 100;
+                return A * ((Math.pow(r2, p) - 1) / (Math.pow(r2, p) * (r2 - 1)));
             },
             kamataZaMjesecAnuitet: function (mjesec) {
                 var r = (this.kamata / 100) / 12;
-                var result = this.nedospijelaGlavnicaAnuitet(mjesec - 1) * r;
-
-                return Math.round(result * 100) / 100;
+                return this.nedospijelaGlavnicaAnuitet(mjesec - 1) * r;
             },
             glavnicaZaMjesecAnuitet: function (mjesec) {
-                var result = this.prviAnuitet - this.kamataZaMjesecAnuitet(mjesec);
-
-                return Math.round(result * 100) / 100;
+                return this.prviAnuitet - this.kamataZaMjesecAnuitet(mjesec);
             },
             subvencijaRata: function (mjesec) {
-                if((this.subvencija * 12) <= mjesec) return 0
+                if ((this.subvencija * 12) <= mjesec) return 0
 
                 var r = this.iznosSubvencije / 100;
 
-                var result = this.rataZaMjesec(mjesec) * r;
-
-                return Math.round(result * 100) / 100;
+                return this.rataZaMjesec(mjesec) * r;
             },
             subvencijaOstatakRata: function (mjesec) {
-                if((this.subvencija * 12) <= mjesec) return this.rataZaMjesec(mjesec)
+                if ((this.subvencija * 12) <= mjesec) return this.rataZaMjesec(mjesec)
 
                 var r = this.iznosSubvencije / 100;
 
-                var result = this.rataZaMjesec(mjesec) * Math.abs(r - 1);
-
-                return Math.round(result * 100) / 100;
+                return this.rataZaMjesec(mjesec) * Math.abs(r - 1);
             },
             subvencijaAnuitet: function (mjesec) {
-                if((this.subvencija * 12) <= mjesec) return 0
+                if ((this.subvencija * 12) <= mjesec) return 0
 
                 var r = this.iznosSubvencije / 100;
-                var result = this.prviAnuitet * r;
-
-                return Math.round(result * 100) / 100;
+                return this.prviAnuitet * r;
             },
             subvencijaOstatakAnuitet: function (mjesec) {
-                if((this.subvencija * 12) <= mjesec) return this.prviAnuitet
+                if ((this.subvencija * 12) <= mjesec) return this.prviAnuitet
 
                 var r = this.iznosSubvencije / 100;
-                var result = this.prviAnuitet * Math.abs(r - 1);
-
-                return Math.round(result * 100) / 100;
+                return this.prviAnuitet * Math.abs(r - 1);
             },
+            formatMoney (amount, decimalCount = 2, decimal = ",", thousands = ".") {
+                try {
+                    decimalCount = Math.abs(decimalCount);
+                    decimalCount = isNaN(decimalCount) ? 2 : decimalCount;
+
+                    const negativeSign = amount < 0 ? "-" : "";
+
+                    let i = parseInt(amount = Math.abs(Number(amount) || 0).toFixed(decimalCount)).toString();
+                    let j = (i.length > 3) ? i.length % 3 : 0;
+
+                    return negativeSign + (j ? i.substr(0, j) + thousands : '') + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thousands) + (decimalCount ? decimal + Math.abs(amount - i).toFixed(decimalCount).slice(2) : "");
+                } catch (e) {
+                    console.log(e)
+                }
+            }
         }
     })
 </script>
